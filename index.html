@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Türbe Ziyaret Rehberi</title>
+    <style>
+        /* --- GENEL AYARLAR (YEŞİL TEMA) --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e8f5e9;
+            margin: 0;
+            padding: 15px;
+            text-align: center;
+            color: #1b5e20;
+        }
+
+        /* --- BAŞLIK ALANI --- */
+        header {
+            background-color: #2e7d32;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        h1 { margin: 0; font-size: 1.8rem; letter-spacing: 1px; }
+
+        /* --- KART IZGARASI --- */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 50px;
+        }
+
+        /* --- KART TASARIMI --- */
+        .card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            border-bottom: 5px solid #2e7d32;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #c8e6c9;
+        }
+
+        .card-content {
+            padding: 20px;
+            text-align: left;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            margin: 0 0 10px 0;
+            color: #1b5e20;
+            font-weight: 800;
+            line-height: 1.4;
+            text-transform: uppercase;
+        }
+
+        .card-location {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 15px;
+            display: block;
+            font-weight: 600;
+        }
+
+        /* --- NOT KUTUSU --- */
+        .info-note {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            border-left: 4px solid #2e7d32;
+            font-weight: 700;
+        }
+
+        /* --- BUTONLAR --- */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+            font-size: 1rem;
+            transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.9; }
+
+        .btn-car { background-color: #1565c0; }
+        .btn-bus { background-color: #2e7d32; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>TÜRBE ZİYARET REHBERİ</h1>
+    </header>
+
+    <div class="container" id="cardContainer"></div>
+
+    <script>
+        // VERİ LİSTESİ
+        // address: Google Maps'e gidecek tam adres (Gizli kalacak ama linkte çalışacak)
+        // displayLocation: Kartın üzerinde görünecek kısa adres
+        const data = [
+            {
+                id: 1,
+                name: "HZ. PİR HASAN HÜSAMEDDİN UŞŞAKİ TÜRBESİ",
+                address: "Hacıahmet Mahallesi, Kasımpaşa, Pir Hüsamettin Sk. No:13, 34440 Beyoğlu/İstanbul",
+                displayLocation: "Beyoğlu / İstanbul",
+                isIstanbul: true
+            },
+            {
+                id: 2,
+                name: "HZ. SEYYİD CEMALEDDİN UŞŞAKİ TÜRBESİ",
+                address: "Defterdar, Müezzin Mehmet Bey Sk. No:2, 34050 Eyüpsultan/İstanbul",
+                displayLocation: "Eyüpsultan / İstanbul",
+                isIstanbul: true
+            },
+            {
+                id: 3,
+                name: "HZ. SALÂHADDİN UŞŞAKİ TÜRBESİ",
+                address: "Cibali, Esrar Dede Sk. No:15, 34083 Fatih/İstanbul",
+                displayLocation: "Fatih / İstanbul",
+                isIstanbul: true
+            },
+            {
+                id: 4,
+                name: "HZ. MUHAMMED ZÜHDÜ NAZİLLİVİ TÜRBESİ",
+                address: "Dumlupınar, Hürriyet Cd. No:356, 09900 Nazilli/Aydın",
+                displayLocation: "Nazilli / Aydın",
+                isIstanbul: false
+            },
+            {
+                id: 5,
+                name: "HZ. ALİ GALİB VASFİ NAZİLLİVİ TÜRBESİ",
+                address: "İstiklal, 611. Sk. No:22, 09800 Nazilli/Aydın",
+                displayLocation: "Nazilli / Aydın",
+                isIstanbul: false,
+                note: "🌹 NOT: Kurban Olduğum Sultanımın Türbesi İçin Mezarlığın Ahmet Yesevi Kapısından girilmeli."
+            },
+            {
+                id: 6,
+                name: "HZ. MUHAMMED TEVFİK NAZİLLİVİ TÜRBESİ",
+                address: "İstiklal, 611. Sk. No:22, 09800 Nazilli/Aydın",
+                displayLocation: "Nazilli / Aydın",
+                isIstanbul: false,
+                note: "🌹 NOT: Kurban Olduğum Sultanımın Türbesi İçin Mezarlığın Ahmet Yesevi Kapısından girilmeli."
+            },
+            {
+                id: 7,
+                name: "HZ. ŞAH ÖMER HULUSİ TÜRBESİ",
+                address: "İstiklal, 611. Sk. No:22, 09800 Nazilli/Aydın",
+                displayLocation: "Nazilli / Aydın",
+                isIstanbul: false,
+                note: "🌹 NOT: Kurban Olduğum Sultanımın Türbesi İçin Mezarlığın Ahmet Yesevi Kapısından girilmeli."
+            },
+            {
+                id: 8,
+                name: "HZ. HÜSEYİN HAKKI AZİZ TÜRBESİ",
+                address: "Altay, Dömeke Sk. No:37, 45400 Turgutlu/Manisa",
+                displayLocation: "Turgutlu / Manisa",
+                isIstanbul: false
+            },
+            {
+                id: 9,
+                name: "HZ. AHMET TALİBİ İRŞADİ TÜRBESİ",
+                address: "Çarşı Cd. No:39, 17900 Kilidülbahir/Eceabat/Çanakkale",
+                displayLocation: "Eceabat / Çanakkale",
+                isIstanbul: false,
+                note: "🌹 NOT: Kurban Olduğum Sultanımın Türbesi belirtilen konumun yaklaşık 150 metre ilerisinde solda kalmaktadır."
+            },
+            {
+                id: 10,
+                name: "HZ. HÜSEYİN HÜSNÜ AZİZ DEDE TÜRBESİ",
+                address: "Çarşı Cd. No:39, 17900 Kilidülbahir/Eceabat/Çanakkale",
+                displayLocation: "Eceabat / Çanakkale",
+                isIstanbul: false,
+                note: "🌹 NOT: Kurban Olduğum Sultanımın Türbesi belirtilen konumun yaklaşık 150 metre ilerisinde solda kalmaktadır."
+            },
+            {
+                id: 11,
+                name: "HZ. KAZMİ DEDE TÜRBESİ",
+                address: "Feyzullah, Bağdat Cad. No:278, 34843 Maltepe/İstanbul",
+                displayLocation: "Maltepe / İstanbul",
+                isIstanbul: true
+            },
+            {
+                id: 12,
+                name: "HZ. MAHMUD GANİ DEDE TÜRBESİ",
+                address: "Kısıklı, Alemdağ Cd No:62, 34692 Üsküdar/İstanbul",
+                displayLocation: "Üsküdar / İstanbul",
+                isIstanbul: true
+            },
+            {
+                id: 13,
+                name: "HZ. İBRAHİMİ MAHFİ SULTAN TÜRBESİ",
+                address: "Feyzullah, Bağdat Cad. No:278, 34843 Maltepe/İstanbul",
+                displayLocation: "Maltepe / İstanbul",
+                isIstanbul: true
+            },
+            {
+                id: 14,
+                name: "HZ. SAUNA SULTAN TÜRBESİ",
+                address: "Uskumruköy, 62HM+CG, 34450 Sarıyer/İstanbul",
+                displayLocation: "Sarıyer / İstanbul",
+                isIstanbul: true
+            }
+        ];
+
+        const container = document.getElementById('cardContainer');
+
+        data.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            const imgText = encodeURIComponent(item.name); 
+            const imgUrl = `https://placehold.co/600x400/2e7d32/white?text=${imgText}`;
+            
+            // Link için tam adresi kullanıyoruz (Navigasyon hatasız çalışsın diye)
+            const encodedAddress = encodeURIComponent(item.address);
+            
+            let buttonsHtml = `<a href="https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}&travelmode=driving" class="btn btn-car" target="_blank">🚗 Yol Tarifi Al (Araç)</a>`;
+
+            if (item.isIstanbul) {
+                buttonsHtml += `<a href="https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}&travelmode=transit" class="btn btn-bus" target="_blank">🚌 Toplu Taşıma</a>`;
+            }
+
+            let noteHtml = '';
+            if (item.note) {
+                noteHtml = `<div class="info-note">${item.note}</div>`;
+            }
+
+            // HTML içinde sadece displayLocation (İlçe/İl) gösteriliyor
+            card.innerHTML = `
+                <img src="${imgUrl}" class="card-image" alt="${item.name}">
+                <div class="card-content">
+                    <h2 class="card-title">${item.id}. ${item.name}</h2>
+                    <span class="card-location">📍 ${item.displayLocation}</span>
+                    ${noteHtml}
+                    <div class="button-group">
+                        ${buttonsHtml}
+                    </div>
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+    </script>
+
+</body>
+</html>
