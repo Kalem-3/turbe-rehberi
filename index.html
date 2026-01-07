@@ -47,11 +47,19 @@
             border-bottom: 5px solid #2e7d32;
         }
 
+        /* GENEL RESİM AYARI (Varsayılan: Merkez) */
         .card-image {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
+            height: 250px;
+            object-fit: cover; 
+            object-position: center center; 
             background-color: #c8e6c9;
+        }
+
+        /* 5 ve 14 İÇİN (Yukarı Kilitli - Dokunulmadı) */
+        .card-image.yukari-odakla {
+            object-fit: cover !important; 
+            object-position: top center !important; 
         }
 
         .card-content {
@@ -128,12 +136,11 @@
 
     <script>
         // VERİ LİSTESİ
-        // address: Google Maps'e gidecek tam adres (Gizli kalacak ama linkte çalışacak)
-        // displayLocation: Kartın üzerinde görünecek kısa adres
         const data = [
             {
                 id: 1,
                 name: "HZ. PİR HASAN HÜSAMEDDİN UŞŞAKİ TÜRBESİ",
+                resimDosyasi: "1.jpg", 
                 address: "Hacıahmet Mahallesi, Kasımpaşa, Pir Hüsamettin Sk. No:13, 34440 Beyoğlu/İstanbul",
                 displayLocation: "Beyoğlu / İstanbul",
                 isIstanbul: true
@@ -141,6 +148,7 @@
             {
                 id: 2,
                 name: "HZ. SEYYİD CEMALEDDİN UŞŞAKİ TÜRBESİ",
+                resimDosyasi: "2.jpg",
                 address: "Defterdar, Müezzin Mehmet Bey Sk. No:2, 34050 Eyüpsultan/İstanbul",
                 displayLocation: "Eyüpsultan / İstanbul",
                 isIstanbul: true
@@ -148,6 +156,10 @@
             {
                 id: 3,
                 name: "HZ. SALÂHADDİN UŞŞAKİ TÜRBESİ",
+                resimDosyasi: "3.jpg",
+                // 3 NUMARA GÜNCELLENDİ: %65'ten %75'e çekildi.
+                // Alt kısmı daha fazla göstermek için odak aşağı kaydırıldı.
+                customStyle: "object-position: 50% 75% !important;",
                 address: "Cibali, Esrar Dede Sk. No:15, 34083 Fatih/İstanbul",
                 displayLocation: "Fatih / İstanbul",
                 isIstanbul: true
@@ -155,6 +167,7 @@
             {
                 id: 4,
                 name: "HZ. MUHAMMED ZÜHDÜ NAZİLLİVİ TÜRBESİ",
+                resimDosyasi: "4.jpg",
                 address: "Dumlupınar, Hürriyet Cd. No:356, 09900 Nazilli/Aydın",
                 displayLocation: "Nazilli / Aydın",
                 isIstanbul: false
@@ -162,6 +175,7 @@
             {
                 id: 5,
                 name: "HZ. ALİ GALİB VASFİ NAZİLLİVİ TÜRBESİ",
+                resimDosyasi: "5.jpg",
                 address: "İstiklal, 611. Sk. No:22, 09800 Nazilli/Aydın",
                 displayLocation: "Nazilli / Aydın",
                 isIstanbul: false,
@@ -170,6 +184,7 @@
             {
                 id: 6,
                 name: "HZ. MUHAMMED TEVFİK NAZİLLİVİ TÜRBESİ",
+                resimDosyasi: "6.PNG",
                 address: "İstiklal, 611. Sk. No:22, 09800 Nazilli/Aydın",
                 displayLocation: "Nazilli / Aydın",
                 isIstanbul: false,
@@ -178,6 +193,9 @@
             {
                 id: 7,
                 name: "HZ. ŞAH ÖMER HULUSİ TÜRBESİ",
+                resimDosyasi: "7.jpg",
+                // 7 NUMARA SABİT (DOKUNULMADI)
+                customStyle: "object-position: 50% 25% !important;",
                 address: "İstiklal, 611. Sk. No:22, 09800 Nazilli/Aydın",
                 displayLocation: "Nazilli / Aydın",
                 isIstanbul: false,
@@ -186,6 +204,9 @@
             {
                 id: 8,
                 name: "HZ. HÜSEYİN HAKKI AZİZ TÜRBESİ",
+                resimDosyasi: "8.jpg",
+                // 8 NUMARA SABİT (DOKUNULMADI - %60)
+                customStyle: "object-position: 50% 60% !important;",
                 address: "Altay, Dömeke Sk. No:37, 45400 Turgutlu/Manisa",
                 displayLocation: "Turgutlu / Manisa",
                 isIstanbul: false
@@ -193,6 +214,7 @@
             {
                 id: 9,
                 name: "HZ. AHMET TALİBİ İRŞADİ TÜRBESİ",
+                resimDosyasi: "9.jpg",
                 address: "Çarşı Cd. No:39, 17900 Kilidülbahir/Eceabat/Çanakkale",
                 displayLocation: "Eceabat / Çanakkale",
                 isIstanbul: false,
@@ -201,6 +223,7 @@
             {
                 id: 10,
                 name: "HZ. HÜSEYİN HÜSNÜ AZİZ DEDE TÜRBESİ",
+                resimDosyasi: "10.jpg",
                 address: "Çarşı Cd. No:39, 17900 Kilidülbahir/Eceabat/Çanakkale",
                 displayLocation: "Eceabat / Çanakkale",
                 isIstanbul: false,
@@ -209,6 +232,7 @@
             {
                 id: 11,
                 name: "HZ. KAZMİ DEDE TÜRBESİ",
+                resimDosyasi: "11.PNG",
                 address: "Feyzullah, Bağdat Cad. No:278, 34843 Maltepe/İstanbul",
                 displayLocation: "Maltepe / İstanbul",
                 isIstanbul: true
@@ -216,6 +240,7 @@
             {
                 id: 12,
                 name: "HZ. MAHMUD GANİ DEDE TÜRBESİ",
+                resimDosyasi: "12.PNG",
                 address: "Kısıklı, Alemdağ Cd No:62, 34692 Üsküdar/İstanbul",
                 displayLocation: "Üsküdar / İstanbul",
                 isIstanbul: true
@@ -223,6 +248,7 @@
             {
                 id: 13,
                 name: "HZ. İBRAHİMİ MAHFİ SULTAN TÜRBESİ",
+                resimDosyasi: "13.jpg",
                 address: "Feyzullah, Bağdat Cad. No:278, 34843 Maltepe/İstanbul",
                 displayLocation: "Maltepe / İstanbul",
                 isIstanbul: true
@@ -230,6 +256,7 @@
             {
                 id: 14,
                 name: "HZ. SAUNA SULTAN TÜRBESİ",
+                resimDosyasi: "14.PNG",
                 address: "Uskumruköy, 62HM+CG, 34450 Sarıyer/İstanbul",
                 displayLocation: "Sarıyer / İstanbul",
                 isIstanbul: true
@@ -238,14 +265,14 @@
 
         const container = document.getElementById('cardContainer');
 
+        // 5 ve 14 için sınıf kontrolü (Dokunulmadı)
+        const yukariOdakIds = [5, 14];
+
         data.forEach(item => {
             const card = document.createElement('div');
             card.className = 'card';
 
-            const imgText = encodeURIComponent(item.name); 
-            const imgUrl = `https://placehold.co/600x400/2e7d32/white?text=${imgText}`;
-            
-            // Link için tam adresi kullanıyoruz (Navigasyon hatasız çalışsın diye)
+            let imgUrl = `resimler/${item.resimDosyasi}`;
             const encodedAddress = encodeURIComponent(item.address);
             
             let buttonsHtml = `<a href="https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}&travelmode=driving" class="btn btn-car" target="_blank">🚗 Yol Tarifi Al (Araç)</a>`;
@@ -259,11 +286,21 @@
                 noteHtml = `<div class="info-note">${item.note}</div>`;
             }
 
-            // HTML içinde sadece displayLocation (İlçe/İl) gösteriliyor
+            // --- RESİM SINIFI VE STİL BELİRLEME ---
+            let imageClass = 'card-image';
+            let inlineStyle = ''; 
+
+            if (item.customStyle) {
+                inlineStyle = `style="${item.customStyle}"`;
+            } 
+            else if (yukariOdakIds.includes(item.id)) {
+                imageClass += ' yukari-odakla';
+            }
+            
             card.innerHTML = `
-                <img src="${imgUrl}" class="card-image" alt="${item.name}">
+                <img src="${imgUrl}" class="${imageClass}" ${inlineStyle} alt="${item.name}">
                 <div class="card-content">
-                    <h2 class="card-title">${item.id}. ${item.name}</h2>
+                    <h2 class="card-title">${item.name}</h2>
                     <span class="card-location">📍 ${item.displayLocation}</span>
                     ${noteHtml}
                     <div class="button-group">
