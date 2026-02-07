@@ -11,20 +11,52 @@
             background-color: #e8f5e9;
             margin: 0;
             padding: 15px;
-            text-align: center;
             color: #1b5e20;
         }
 
-        /* --- BAŞLIK ALANI --- */
-        header {
+        /* --- ORTAK BANNER STİLİ (HEM ÜST HEM ALT BAŞLIK İÇİN) --- */
+        .common-banner {
             background-color: #2e7d32;
             color: white;
-            padding: 20px;
+            padding: 40px 20px; /* Yükseklik algısı için dolgu artırıldı */
             border-radius: 15px;
-            margin-bottom: 30px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-align: center;
+            
+            /* Genişlik ve Hizalama Ayarı */
+            max-width: 1200px; /* Alttaki kartlar (container) ile aynı genişlik sınırı */
+            margin: 0 auto 30px auto; /* Ortala ve alttan boşluk bırak */
+            width: 100%; /* Mobilde tam otursun */
+            box-sizing: border-box; /* Padding taşmasın */
         }
-        h1 { margin: 0; font-size: 1.8rem; letter-spacing: 1px; }
+
+        /* --- ORTAK BAŞLIK YAZISI STİLİ --- */
+        .banner-title {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            line-height: 1.3;
+        }
+
+        /* --- ORTAK ALT YAZI STİLİ --- */
+        .banner-subtitle {
+            margin-top: 15px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            opacity: 1; /* Tam beyaz */
+            line-height: 1.6;
+            font-style: normal;
+        }
+
+        /* --- IZGARA İÇİNDEKİ AYIRICI İÇİN EK AYAR --- */
+        .section-separator {
+            grid-column: 1 / -1; /* Tüm satırı kapla */
+            margin-top: 40px;    /* Kartlardan biraz uzaklaşsın */
+            margin-bottom: 25px; 
+            /* Diğer tüm özelliklerini .common-banner sınıfından alacak */
+        }
 
         /* --- KART IZGARASI --- */
         .container {
@@ -47,7 +79,6 @@
             border-bottom: 5px solid #2e7d32;
         }
 
-        /* GENEL RESİM AYARI (Varsayılan: Merkez) */
         .card-image {
             width: 100%;
             height: 250px;
@@ -56,7 +87,7 @@
             background-color: #c8e6c9;
         }
 
-        /* 5 ve 14 İÇİN (Yukarı Kilitli - Dokunulmadı) */
+        /* Özel Odaklama Sınıfı */
         .card-image.yukari-odakla {
             object-fit: cover !important; 
             object-position: top center !important; 
@@ -87,7 +118,6 @@
             font-weight: 600;
         }
 
-        /* --- NOT KUTUSU --- */
         .info-note {
             background-color: #e8f5e9;
             color: #2e7d32;
@@ -99,7 +129,6 @@
             font-weight: 700;
         }
 
-        /* --- BUTONLAR --- */
         .button-group {
             display: flex;
             flex-direction: column;
@@ -128,15 +157,20 @@
 </head>
 <body>
 
-    <header>
-        <h1>TÜRBE ZİYARET REHBERİ</h1>
+    <header class="common-banner">
+        <div class="banner-title">TÜRBE ZİYARET REHBERİ</div>
+        <div class="banner-subtitle">
+            Destur, Halvet-i Uşşaki Tarikatının Nazenin Kolunun Yüce Sultanları<br>
+            Demine Devranlarına Hu Diyelim<br>
+            Ya Huuu Hu
+        </div>
     </header>
 
     <div class="container" id="cardContainer"></div>
 
     <script>
-        // VERİ LİSTESİ
         const data = [
+            // --- İLK 14 TÜRBE (MEVCUT LİSTE - DOKUNULMADI) ---
             {
                 id: 1,
                 name: "HZ. PİR HASAN HÜSAMEDDİN UŞŞAKİ TÜRBESİ",
@@ -157,8 +191,6 @@
                 id: 3,
                 name: "HZ. SALÂHADDİN UŞŞAKİ TÜRBESİ",
                 resimDosyasi: "3.jpg",
-                // 3 NUMARA GÜNCELLENDİ: %65'ten %75'e çekildi.
-                // Alt kısmı daha fazla göstermek için odak aşağı kaydırıldı.
                 customStyle: "object-position: 50% 75% !important;",
                 address: "Cibali, Esrar Dede Sk. No:15, 34083 Fatih/İstanbul",
                 displayLocation: "Fatih / İstanbul",
@@ -194,7 +226,6 @@
                 id: 7,
                 name: "HZ. ŞAH ÖMER HULUSİ TÜRBESİ",
                 resimDosyasi: "7.jpg",
-                // 7 NUMARA SABİT (DOKUNULMADI)
                 customStyle: "object-position: 50% 25% !important;",
                 address: "İstiklal, 611. Sk. No:22, 09800 Nazilli/Aydın",
                 displayLocation: "Nazilli / Aydın",
@@ -205,7 +236,6 @@
                 id: 8,
                 name: "HZ. HÜSEYİN HAKKI AZİZ TÜRBESİ",
                 resimDosyasi: "8.jpg",
-                // 8 NUMARA SABİT (DOKUNULMADI - %60)
                 customStyle: "object-position: 50% 60% !important;",
                 address: "Altay, Dömeke Sk. No:37, 45400 Turgutlu/Manisa",
                 displayLocation: "Turgutlu / Manisa",
@@ -260,15 +290,136 @@
                 address: "Uskumruköy, 62HM+CG, 34450 Sarıyer/İstanbul",
                 displayLocation: "Sarıyer / İstanbul",
                 isIstanbul: true
+            },
+            // --- YENİ EKLENEN SULTANLAR (15-29) ---
+            {
+                id: 15,
+                name: "HZ. PİR ÜMMÜ SİNAN SULTAN TÜRBESİ",
+                resimDosyasi: "15.jpg",
+                address: "Düğmeciler, Ummi Sinan Sk. No:5, 34055 Eyüpsultan/İstanbul",
+                displayLocation: "Eyüpsultan / İstanbul",
+                isIstanbul: true
+            },
+            {
+                id: 16,
+                name: "HZ. HÜNKAR HACI BEKTAŞİ VELİ SULTAN TÜRBESİ",
+                resimDosyasi: "16.jpg",
+                address: "Bala, Türbe Sk. No:2, 50800 Hacıbektaş/Nevşehir",
+                displayLocation: "Hacıbektaş / Nevşehir",
+                isIstanbul: false
+            },
+            {
+                id: 17,
+                name: "HZ. MEVLANA CELALEDDİNİ RUMİ SULTAN TÜRBESİ",
+                resimDosyasi: "17.jpg",
+                address: "Aziziye, Mevlana Cd. No:1, 42030 Karatay/Konya",
+                displayLocation: "Karatay / Konya",
+                isIstanbul: false
+            },
+            {
+                id: 18,
+                name: "HZ. HASAN SEZAİ SULTAN TÜRBESİ",
+                resimDosyasi: "18.jpg",
+                address: "Talatpaşa, Kavaklı Tekke Sk. No:2, 22100 Edirne Merkez/Edirne",
+                displayLocation: "Edirne Merkez / Edirne",
+                isIstanbul: false
+            },
+            {
+                id: 19,
+                name: "HZ. HACI BAYRAMI VELİ SULTAN TÜRBESİ",
+                resimDosyasi: "19.jpg",
+                address: "Hacı Bayram, Şht. Keskin Sk. No:7, 06050 Altındağ/Ankara",
+                displayLocation: "Altındağ / Ankara",
+                isIstanbul: false
+            },
+            {
+                id: 20,
+                name: "HZ. EMİR SULTAN SULTAN TÜRBESİ",
+                resimDosyasi: "20.jpg",
+                address: "Emirsultan, 3. Doyuran Sk. No:2, 16360 Yıldırım/Bursa",
+                displayLocation: "Yıldırım / Bursa",
+                isIstanbul: false
+            },
+            {
+                id: 21,
+                name: "HZ. TEZVEREN DEDE SULTAN TÜRBESİ",
+                resimDosyasi: "21.jpg",
+                address: "İvazpaşa, Tezveren Sk. No:11, 16040 Osmangazi̇/Bursa",
+                displayLocation: "Osmangazi / Bursa",
+                isIstanbul: false
+            },
+            {
+                id: 22,
+                name: "HZ. HIZIR DEDE SULTAN TÜRBESİ",
+                resimDosyasi: "22.jpg",
+                address: "Mollafenari, 1. Dere Sk. No: 14a, 16040 Osmangazi̇/Bursa",
+                displayLocation: "Osmangazi / Bursa",
+                isIstanbul: false,
+                note: "Sultanımızın türbesi 1. Dere Sokağın bittiği yerden sol yukarı tarafa doğru çıkan yolun hemen başındadır."
+            },
+            {
+                id: 23,
+                name: "HZ. SOMUNCU BABA SULTAN FIRINI VE EVI",
+                resimDosyasi: "23.jpg",
+                address: "Mollafenari, 3. Hamam Sk. 29 A, 16040 Osmangazi̇/Bursa",
+                displayLocation: "Osmangazi / Bursa",
+                isIstanbul: false
+            },
+            {
+                id: 24,
+                name: "HZ. ÜFTADE SULTAN TÜRBESİ",
+                resimDosyasi: "24.jpg",
+                address: "Kavaklı, Üftade Sk. No:10, 16040 Osmangazi̇/Bursa",
+                displayLocation: "Osmangazi / Bursa",
+                isIstanbul: false
+            },
+            {
+                id: 25,
+                name: "HZ. AZİZ MAHMUD HÜDAYİ SULTAN TÜRBESİ",
+                resimDosyasi: "25.jpg",
+                address: "Aziz Mahmut Hüdayi, Aziz Mahmut Efendi Sokağı No:14, 34672 Üsküdar/İstanbul",
+                displayLocation: "Üsküdar / İstanbul",
+                isIstanbul: true
+            },
+            {
+                id: 26,
+                name: "HZ. YUNUS EMRE SULTAN TÜRBESİ",
+                resimDosyasi: "26.jpg",
+                address: "Yunusemre, 26900 Mihalıççık/Eskişehir",
+                displayLocation: "Mihalıççık / Eskişehir",
+                isIstanbul: false
+            },
+            {
+                id: 27,
+                name: "HZ. TAPTUK EMRE SULTAN TÜRBESİ",
+                resimDosyasi: "27.jpg",
+                address: "Taptuk Emre Köyü Yolu No:68000, Taptuk Emre/Aksaray Merkez/Aksaray",
+                displayLocation: "Aksaray Merkez / Aksaray",
+                isIstanbul: false
+            },
+            {
+                id: 28,
+                name: "HZ. DÜZGÜN BABA SULTAN TÜRBESİ",
+                resimDosyasi: "28.jpg",
+                address: "Düzgün Baba Türbesi, 62000 Burmageçit/Tunceli Merkez/Tunceli",
+                displayLocation: "Tunceli Merkez / Tunceli",
+                isIstanbul: false
+            },
+            {
+                id: 29,
+                name: "HZ. AZİZ BABA SULTAN TÜRBESİ",
+                resimDosyasi: "29.jpg",
+                address: "Ulalar, Aziz Baba, Cumhuriyet Cd. No:349, 24180 Erzincan Merkez/Erzincan",
+                displayLocation: "Erzincan Merkez / Erzincan",
+                isIstanbul: false
             }
         ];
 
         const container = document.getElementById('cardContainer');
-
-        // 5 ve 14 için sınıf kontrolü (Dokunulmadı)
         const yukariOdakIds = [5, 14];
 
         data.forEach(item => {
+            // 1. KARTI OLUŞTUR
             const card = document.createElement('div');
             card.className = 'card';
 
@@ -286,14 +437,11 @@
                 noteHtml = `<div class="info-note">${item.note}</div>`;
             }
 
-            // --- RESİM SINIFI VE STİL BELİRLEME ---
             let imageClass = 'card-image';
             let inlineStyle = ''; 
-
             if (item.customStyle) {
                 inlineStyle = `style="${item.customStyle}"`;
-            } 
-            else if (yukariOdakIds.includes(item.id)) {
+            } else if (yukariOdakIds.includes(item.id)) {
                 imageClass += ' yukari-odakla';
             }
             
@@ -308,11 +456,22 @@
                     </div>
                 </div>
             `;
-
             container.appendChild(card);
+
+            // 2. ARA BAŞLIK (BANNER) EKLEME
+            if (item.id === 14) {
+                const separatorDiv = document.createElement('div');
+                // Hem ortak stil (.common-banner) hem yerleşim stili (.section-separator)
+                separatorDiv.className = 'common-banner section-separator'; 
+                separatorDiv.innerHTML = `
+                    <div class="banner-title">Hakk ile Hakk Olmuş, Gönül Semamızın Müstesna Sultanları<br></div>
+                    <div class="banner-subtitle">Demine Devranlarına Hu Diyelim<br>
+                    Ya Huuu Hu...</div>
+                `;
+                container.appendChild(separatorDiv);
+            }
         });
     </script>
 
 </body>
-
 </html>
